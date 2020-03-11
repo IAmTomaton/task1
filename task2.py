@@ -1,4 +1,4 @@
-import ar
+import argparse
 from queue import Queue
 
 
@@ -6,10 +6,19 @@ class Graph:
 
     def __init__(self, matrix):
         self._matrix = matrix
-        self._visited_points = [False for i in range(len(self._matrix))]
+        self._count = len(self._matrix)
+        self._visited_points = [False for i in range(self._count)]
 
     def wide_walk(self):
-
+        queue = Queue()
+        queue.put(0)
+        while not queue.empty():
+            current_point = queue.get()
+            print(current_point)
+            self._visited_points[current_point] = True
+            for point in range(self._count):
+                if self._matrix[current_point][point] == 1 and not self._visited_points[point]:
+                    queue.put(point)
 
 
 def generate_argparser():
@@ -21,7 +30,7 @@ def generate_argparser():
 
 def matrix_from_file(file):
     count = int(file.readline())
-    matrix = [[int(j) for j in file.readline().split(' ')] for i in range(count)]
+    matrix = [[int(j) for j in file.readline().split(' ')] for _ in range(count)]
     return matrix
 
 
@@ -35,6 +44,7 @@ def main():
         print('File ' + args.input + 'not found.')
         return
     graph = Graph(matrix)
+    graph.wide_walk()
 
 
 if __name__ == '__main__':
