@@ -56,8 +56,8 @@ def main():
         print('File ' + args.input + 'not found.')
         return
     graph = Graph(adjacency_list)
+    components = list(graph.connectivity_components())
     with open(args.output, 'w') as output_file:
-        components = list(graph.connectivity_components())
         output_file.write(str(len(components)))
         for component in components:
             output_file.write('\n')
